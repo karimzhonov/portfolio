@@ -1,0 +1,273 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block head %}
+  <title>{{ conf.title }}</title>
+  <link href="{{ conf.icon.url }}" rel="icon">
+  <meta content="{{ conf.description }}" name="description">
+  <meta content="{{ conf.keywords }}" name="keywords">
+{% endblock %}
+
+{% block content %}
+  <section id="hero" class="d-flex flex-column justify-content-center align-items-center"
+           style="background: url('{{ conf.background.url }}') top center fixed;">
+    <div class="hero-container" data-aos="fade-in">
+      <h1>{{ conf.get_full_name|safe }}</h1>
+      <p>Я <span class="typed" data-typed-items="{{ conf.jobs }}"></span></p>
+      <div class="social-links mt-3">
+        <a href="{{ conf.resume.url }}" class="cv_download" download=""><i class="bx bi-download"></i> Скачать резюме
+        </a>
+      </div>
+    </div>
+  </section>
+  <!-- End Hero -->
+
+  <main id="main">
+
+    <!-- ======= About Section ======= -->
+    <section id="about" class="about">
+      <div class="container">
+
+        <div class="section-title">
+          <h2>Обо мне</h2>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-4" data-aos="fade-right">
+            <img src="{{ about.img.url }}" class="img-fluid" alt="avatar">
+          </div>
+          <div class="col-lg-8 pt-4 pt-lg-0 content" data-aos="fade-left">
+            <h3>{{ about.job }}</h3>
+            <ul class="row">
+              <li class="col-lg-6"><i class="bi bi-chevron-right"></i> <strong>День
+                рождения:</strong><span>{{ about.birth_day }}</span></li>
+              <li class="col-lg-6"><i class="bi bi-chevron-right"></i> <strong>Возраст:</strong>
+                <span>{{ about.get_age }}</span></li>
+              <li class="col-lg-6"><i class="bi bi-chevron-right"></i> <strong>Email:</strong>
+                <span>{{ about.email }}</span></li>
+              {% for point in more %}
+                <li class="col-lg-6"><i class="bi bi-chevron-right"></i> <strong>{{ point.type }}:</strong>
+                  <span>{{ point.name }}</span></li>
+              {% endfor %}
+            </ul>
+            <p>{{ about.text }}</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+    <!-- End About Section -->
+
+    <!-- ======= Resume Section ======= -->
+    <section id="resume" class="resume">
+      <div class="container">
+
+        <div class="section-title">
+          <h2>Резуме</h2>
+        </div>
+
+        <div class="row">
+          {% for item in exp_types %}
+            <div class="col-lg-6" data-aos="fade-up">
+              <h3 class="resume-title">{{ item.name }}</h3>
+              {% for point in item.get_exp %}
+                <div class="resume-item">
+                  <h4>{{ point.name }}</h4>
+                  <h5>{{ point.get_from_to_at }}</h5>
+                  <p><em>{{ point.where }}</em></p>
+                  <p>{{ point.text|safe }}</p>
+                </div>
+              {% empty %}
+                <div class="resume-item">
+                  <p><em>{{ item.empty }}</em></p>
+                </div>
+              {% endfor %}
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+    <!-- End Resume Section -->
+
+    <!-- ======= Skills Section ======= -->
+    <section id="skills" class="skills section-bg">
+      <div class="container">
+
+        <div class="section-title pb-0">
+          <h2>Навыки</h2>
+        </div>
+
+        <div class="row skills-content">
+
+          {% for type in skill_types %}
+            <div class="col-lg-6" data-aos="fade-up">
+              <h4 class="title" style="color: #173B6C"><strong>{{ type.name }}</strong></h4>
+              {% for skill in type.get_skills %}
+                <div class="progress">
+                  <span class="skill">{{ skill.name }} <i class="val">{{ skill.rate }}%</i></span>
+                  <div class="progress-bar-wrap">
+                    <div class="progress-bar" role="progressbar" aria-valuenow="{{ skill.rate }}" aria-valuemin="0"
+                         aria-valuemax="100"></div>
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          {% endfor %}
+
+        </div>
+
+      </div>
+    </section>
+    <!-- End Skills Section -->
+
+    <!-- ======= Portfolio Section ======= -->
+    <section id="portfolio" class="portfolio section-bg">
+      <div class="container">
+
+        <div class="section-title">
+          <h2>Портфолио</h2>
+        </div>
+
+        <div class="row" data-aos="fade-up">
+          <div class="col-lg-12 d-flex justify-content-center">
+            <ul id="portfolio-flters">
+              <li data-filter="*" class="filter-active">All</li>
+              {% for name in project_types %}
+                <li data-filter=".{{ name.slug }}">{{ name.name }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+
+        <div class="row portfolio-container" data-aos="fade-up">
+          {% for point in projects %}
+            <div class="col-lg-4 col-md-6 portfolio-item {{ point.get_filter_name }}">
+              <div class="portfolio-wrap">
+                <img src="{{ point.img.url }}" class="img-fluid" alt="image">
+                <div class="portfolio-links">
+                  {#                <a href="assets/img/portfolio/portfolio-1.jpg" data-gallery="portfolioGallery"#}
+                  {#                   class="portfolio-lightbox" title="App 1"><i class="bx bx-plus"></i></a>#}
+                  <a href="{{ point.link }}" title="Подробнее"><i class="bx bx-link"></i></a>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+
+        </div>
+
+      </div>
+    </section>
+    <!-- End Portfolio Section -->
+
+    <!-- ======= Contact Section ======= -->
+    <section id="contact" class="contact">
+      <div class="container">
+
+        <div class="section-title">
+          <h2>Контакт</h2>
+          <p></p>
+        </div>
+
+        <div class="row" data-aos="fade-in">
+
+          <div class="col-lg-5 d-flex align-items-stretch">
+            <div class="info d-flex flex-column justify-content-center">
+
+              {% for point in social %}
+                <div class="email">
+                  <i class="{{ point.class_name }}"></i>
+                  <h4>{{ point.name }}:</h4>
+                  <a href="{{ point.link }}"><p>{{ point.social_id }}</p></a>
+                </div>
+              {% endfor %}
+
+              {#              <iframe#}
+              {#                  src="https://www.google.ru/maps/place/1-%D0%B9+%D0%9C%D1%83%D1%80%D0%B8%D0%BD%D1%81%D0%BA%D0%B8%D0%B9+%D0%BF%D1%80.,+%D0%A1%D0%B0%D0%BD%D0%BA%D1%82-%D0%9F%D0%B5%D1%82%D0%B5%D1%80%D0%B1%D1%83%D1%80%D0%B3,+194100/@59.9875812,30.3298372,17.63z/data=!4m5!3m4!1s0x469633f04f429bd5:0x3ef1b3a649d71a95!8m2!3d59.9873519!4d30.33063"#}
+              {#                  frameborder="0" style="border:0; width: 100%; height: 290px;" allowfullscreen></iframe>#}
+            </div>
+          </div>
+
+          <div class="col-lg-7 mt-5 mt-lg-0 d-flex align-items-stretch">
+            <form id="contact_form" class="php-email-form">
+              {% csrf_token %}
+
+              {% if contact_message %}
+                <div class="alert alert-{{ contact_message_type }}">{{ contact_message }}</div>
+              {% endif %}
+
+              <div class="row">
+                <div class="form-group col-md-6">
+                  <label for="name">Your Name</label>
+                  <input type="text" name="name" class="form-control" id="name" required>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="email">Your Email</label>
+                  <input type="email" class="form-control" name="email" id="email" required>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="subject">Subject</label>
+                <input type="text" class="form-control" name="subject" id="subject" required>
+              </div>
+              <div class="form-group">
+                <label for="message">Message</label>
+                <textarea class="form-control" name="message" id="message" rows="10" required></textarea>
+              </div>
+              <div>
+                <div class="loading">Загрузка</div>
+                <div id="alert_contact" class="d-none alert"></div>
+              </div>
+              <div class="text-center">
+                <button id="contact_submit" type="button" style="background: #1C9DDD" class="btn btn-primary">Отправить
+                  сообщение
+                </button>
+              </div>
+
+              <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+              <script>
+                const btn = document.getElementById('contact_submit')
+                const form = document.getElementById('contact_form')
+                const inputs = form.querySelectorAll('.form-control')
+                const token = document.querySelector('input[name="csrfmiddlewaretoken"]').value
+
+                async function send(data) {
+                  const url = 'rest/contact/'
+                  await axios.post(url, data, {'headers': {'X-CSRFToken': token}}).then(res => {
+                    document.querySelector('div.loading').classList.remove('d-block')
+                    document.querySelector('div#alert_contact').innerHTML = 'Ваше сообщение отправлено. Спасибо!'
+                    document.querySelector('div#alert_contact').classList.add('alert-success')
+                    document.querySelector('div#alert_contact').classList.remove('d-none')
+
+                  }).catch(err => {
+                    console.error(err)
+                    document.querySelector('div.loading').classList.remove('d-block')
+                    document.querySelector('div#alert_contact').innerHTML = 'Что-то пошло не так, побрубайте позже'
+                    document.querySelector('div#alert_contact').classList.add('alert-danger')
+                    document.querySelector('div#alert_contact').classList.remove('d-none')
+                  })
+                }
+
+                btn.addEventListener('click', () => {
+                  document.querySelector('div.loading').classList.add('d-block')
+                  const data = {}
+                  inputs.forEach(point => {
+                    data[point.getAttribute('name')] = point.value
+                  })
+                  send(data)
+                  inputs.forEach(point => {
+                    point.value = ''
+                  })
+                })
+              </script>
+
+            </form>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+    <!-- End Contact Section -->
+  </main>
+  <!-- End #main -->
+{% endblock %}

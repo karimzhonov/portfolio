@@ -1,0 +1,27 @@
+{% load main_tags %}
+{% settings as conf %}
+{% social_links as links %}
+<header id="header">
+    <div class="d-flex flex-column">
+
+      <div class="profile">
+        <img src="{{ conf.avatar.url }}" alt="avatar" class="img-fluid rounded-circle">
+        <h1 class="text-light"><a href="{% url 'index' %}">{{ conf.get_full_name|safe }}</a></h1>
+        <div class="social-links mt-3 text-center">
+          {% for link in links %}
+          <a href="{{ link.link }}" class=""><i class="{{ link.class_name }}"></i></a>
+          {% endfor %}
+        </div>
+      </div>
+
+      <nav id="navbar" class="nav-menu navbar">
+        <ul>
+          <li><a href="#hero" class="nav-link scrollto active"><i class="bx bx-home"></i> <span>Главный</span></a></li>
+          <li><a href="#about" class="nav-link scrollto"><i class="bx bx-user"></i> <span>Обо мне</span></a></li>
+          <li><a href="#resume" class="nav-link scrollto"><i class="bx bx-file-blank"></i> <span>Резуме</span></a></li>
+          <li><a href="#portfolio" class="nav-link scrollto"><i class="bx bx-book-content"></i> <span>Портфолио</span></a></li>
+          <li><a href="#contact" class="nav-link scrollto"><i class="bx bx-envelope"></i> <span>Контакт</span></a></li>
+        </ul>
+      </nav><!-- .nav-menu -->
+    </div>
+  </header>
